@@ -1,0 +1,118 @@
+﻿body
+{
+	border-color: gainsboro;
+	border-style: dotted;
+	width: 1000px;
+}
+
+form
+{
+	border-color: gainsboro;
+	border-style: dotted;
+}
+
+div
+{
+	border-color: pink;
+	border-style: dotted;
+}
+
+ol
+{
+	list-style: none;
+}
+
+li
+{
+	text-align: right;
+	padding-bottom: 1em;
+}
+
+label
+{
+	text-align: right;
+	margin-right: 1em;
+}
+
+fieldset.buttons
+{
+	text-align: right;
+	padding-right: 1em;
+}
+
+table
+{
+	border-style: solid;
+	border-width: thin;
+}
+
+table th
+{
+	font-weight: bold;
+	border-style: solid;
+	border-width: thin;
+	padding: 4px 4px 4px 4px;
+}
+
+table td
+{
+	border-style: solid;
+	border-width: thin;
+	padding: 4px 4px 4px 4px;
+}
+
+#content
+{
+	float: left;
+	margin-right: auto;
+
+}
+
+/* Form title */
+#content form h1
+{
+	text-align: center;
+}
+
+#footer
+{
+	clear: both;
+	text-align: center;
+	color: LightGrey;
+}
+
+#wait_dialog
+{
+	width: 300px;
+}
+
+#waitMessage
+{
+	height: 50px;
+	text-align: center;
+}
+
+.flash
+{
+	text-align: center;
+	color: Red;
+}
+
+div.home_title
+{
+	float: left;
+	width: 450px;
+	height: 400px;
+}
+
+div.home_area
+{
+	float: right;
+	text-align: left;
+	width: 450px;
+}
+
+div.home_area h1
+{
+	font-size: 18px;
+}

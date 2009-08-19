@@ -1,0 +1,15 @@
+<div class='page'>
+	<div class='menu'>
+		<form>
+			<div>
+				<h2>Maintenance Menu</h1>
+				<ol>
+					<li> $UrlHelper.Link("Test Link", "%{controller='test', action='index'}")</li>
+					#foreach ($table in $tables)
+						<li>$UrlHelper.Link($TextHelper.PascalCaseToWord("$table.EntityName"), "%{area='', controller='maintenance', action='index', querystring='entityName=$table.EntityName'}")</li>
+					#end
+				</ol>
+			</div>
+		</form>
+	</div>
+</div>
