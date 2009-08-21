@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Specialized;
+using Bistrotech.DataMaintenanceApp.ParameterBinders;
 using Bistrotech.NamedEntities;
 using Castle.MonoRail.Framework;
 
@@ -28,7 +29,7 @@ namespace Bistrotech.DataMaintenanceApp.Contollers
 			PropertyBag["entityDefinition"] = definitionProvider.Retrieve(entityName);
 		}
 
-		public void Create(string entityName, IDictionary entity)
+		public void Create(string entityName, [DictBind("entity")] IDictionary entity)
 		{
 			namedEntityRepository.Create(entityName, entity);
 			RedirectToIndex(entityName);
@@ -40,7 +41,7 @@ namespace Bistrotech.DataMaintenanceApp.Contollers
 			PropertyBag["entity"] = namedEntityRepository.GetById(entityName, id);
 		}
 
-		public void Update(string entityName, IDictionary entity)
+		public void Update(string entityName, [DictBind("entity")] IDictionary entity)
 		{
 			namedEntityRepository.Update(entityName, entity);
 			RedirectToIndex(entityName);
