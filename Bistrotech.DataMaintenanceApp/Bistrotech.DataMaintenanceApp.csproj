@@ -31,7 +31,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Content\css\minimal.css" />
-    <Content Include="Content\css\signals.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />

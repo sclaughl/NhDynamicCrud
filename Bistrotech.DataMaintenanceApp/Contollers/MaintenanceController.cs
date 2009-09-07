@@ -22,6 +22,11 @@ namespace Bistrotech.DataMaintenanceApp.Contollers
 		{
 			var entities = namedEntityRepository.FindAll(entityName);
 			PropertyBag["entities"] = entities;
+
+			// following needed to build edit/delete links
+			var definition = definitionProvider.Retrieve(entityName);
+			PropertyBag["entityName"] = entityName;
+			PropertyBag["idName"] = definition.Key.Name;
 		}
 
 		public void New(string entityName)
@@ -35,7 +40,7 @@ namespace Bistrotech.DataMaintenanceApp.Contollers
 			RedirectToIndex(entityName);
 		}
 
-		public void Edit(string entityName, object id)
+		public void Edit(string entityName, int id)
 		{
 			PropertyBag["entityDefinition"] = definitionProvider.Retrieve(entityName);
 			PropertyBag["entity"] = namedEntityRepository.GetById(entityName, id);
@@ -43,11 +48,15 @@ namespace Bistrotech.DataMaintenanceApp.Contollers
 
 		public void Update(string entityName, [DictBind("entity")] IDictionary entity)
 		{
-			namedEntityRepository.Update(entityName, entity);
+			// HACK: key is always int
+			var entityDefinition = definitionProvider.Retrieve(entityName);
+			entity[entityDefinition.Key.Name] = int.Parse(entity[entityDefinition.Key.Name].ToString());
+
+			namedEntityRepository.Update(entityName, entity, entityDefinition);
 			RedirectToIndex(entityName);
 		}
 
-		public void Delete(string entityName, object id)
+		public void Delete(string entityName, int id)
 		{
 			namedEntityRepository.Delete(entityName, id);
 			RedirectToIndex(entityName);

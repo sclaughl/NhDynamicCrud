@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6469045E-63A7-422C-9FD4-A61E80C997A2}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -31,15 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DefinitionCreator.cs" />
     <Compile Include="DefinitionProvider.cs" />
+    <Compile Include="Definition\DataType.cs" />
     <Compile Include="Definition\Field.cs" />
-    <Compile Include="Definition\FieldViewSettings.cs" />
     <Compile Include="Definition\KeyType.cs" />
     <Compile Include="DuplicateKeyException.cs" />
     <Compile Include="EntityDefinition.cs" />
     <Compile Include="INamedEntityRepository.cs" />
-    <Compile Include="ITranslateFrom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

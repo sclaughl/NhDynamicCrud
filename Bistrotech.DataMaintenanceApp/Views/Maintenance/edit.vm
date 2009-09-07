@@ -1,1 +1,24 @@
-Edit
+<form action="update.rails" method="post">
+	<fieldset class="groupBox">
+	<input type="hidden" name="entityName" value="$entityDefinition.EntityName" />
+		
+		<ol>
+				<li>
+					<label for='entity.${entityDefinition.Key.Name}'>$TextHelper.PascalCaseToWord($entityDefinition.Key.Name)</label>
+					<input id='entity.${entityDefinition.Key.Name}' name='entity.${entityDefinition.Key.Name}' value='$entity.get_Item($entityDefinition.Key.Name)' readonly="readonly"/>
+				</li>
+			
+			#foreach ($field in $entityDefinition.Fields)
+				<li>
+					<label for='entity.${field.Name}'>${field.Name}:</label>
+					<input id='entity.${field.Name}' name='entity.${field.Name}' maxlength='$field.MaxLength' value="$entity.get_Item($field.Name)" />
+				</li>
+			#end
+			
+				<li>
+					<label>&nbsp;</label>
+					<button type="submit">Update</button>
+				</li>
+		</ol>
+	</fieldset>
+</form>

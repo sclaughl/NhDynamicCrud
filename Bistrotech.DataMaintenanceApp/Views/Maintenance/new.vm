@@ -1,1 +1,19 @@
-New
+<form action="create.rails" method="post">
+	<fieldset class="groupBox">
+	<ol>
+		<input type="hidden" name="entityName" value="$entityDefinition.EntityName" />
+
+		#foreach ($field in $entityDefinition.Fields)
+			<li>
+				<label for='entity.${field.Name}'>$field.Name:</label>
+				<input id='entity.${field.Name}' name='entity.${field.Name}' />
+			</li>
+		#end
+
+			<li>
+				<label>&nbsp;</label>
+				<button type="submit">Create</button>
+			</li>
+	</ol>
+	</fieldset>
+</form>

@@ -15,8 +15,8 @@ namespace Bistrotech.DataMaintenanceApp.Contollers
 
 		public void Index()
 		{
-			var tablesToMaintain = definitionProvider.Retrieve();
-			PropertyBag["tables"] = tablesToMaintain;
+			var entityTypes = definitionProvider.Retrieve();
+			PropertyBag["entityTypes"] = entityTypes;
 		}
 	}
 }

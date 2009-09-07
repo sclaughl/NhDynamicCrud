@@ -17,34 +17,21 @@ namespace Bistrotech.NHibernate
 			this.sessionManager = sessionManager;
 		}
 
-		protected ISession GetSession()
-		{
-			var session = sessionManager.OpenSession();
-			var childSession = session.GetSession(EntityMode.Map);
-			return childSession;
-		}
-
 		public IDictionary GetById(string entityName, object id)
 		{
-			var session = GetSession();
-
-			//HACK
-			int idAsInt;
-			if (int.TryParse(id.ToString(), out idAsInt)) // id was an integer
-				return (IDictionary)session.Get(entityName, idAsInt);
-
+			var session = sessionManager.OpenSession();
 			return (IDictionary)session.Get(entityName, id);
 		}
 
 		public IList FindAll(string entityName)
 		{
-			var session = GetSession();
+			var session = sessionManager.OpenSession();
 			return session.CreateCriteria(entityName).List();
 		}
 
 		public IList SortedFindAll(string entityName, string sort, bool isDescending)
 		{
-			var session = GetSession();
+			var session = sessionManager.OpenSession();
 			var crit = session.CreateCriteria(entityName);
 			crit.AddOrder(isDescending ? Order.Desc(sort) : Order.Asc(sort));
 			return crit.List();
@@ -53,7 +40,7 @@ namespace Bistrotech.NHibernate
 		public virtual object Create(string entityName, IDictionary entity)
 		{
 			object insertedKey;
-			var session = GetSession();
+			var session = sessionManager.OpenSession();
 			try
 			{
 				insertedKey = session.Save(entityName, entity);
@@ -63,16 +50,22 @@ namespace Bistrotech.NHibernate
 			{
 				if (ex.InnerException.Message.Contains("Cannot insert duplicate key"))
 					throw new DuplicateKeyException("A record with this value already exists.", ex);
-				
+
 				throw;
 			}
 			return insertedKey;
 		}
 
-		public virtual void Update(string entityName, IDictionary entity)
+		public void Update(string entityName, IDictionary entity)
 		{
-			var session = GetSession();
-			var mergedEntity = Merge(session, entityName, entity);
+			throw new NotImplementedException();
+		}
+
+		public virtual void Update(string entityName, IDictionary entity, EntityDefinition definition)
+		{
+			var session = sessionManager.OpenSession();
+			//var mergedEntity = session.Merge(entityName, entity); // doesn't work -- see below
+			var mergedEntity = Merge(session, definition, entity);
 			session.Update(entityName, mergedEntity);
 			session.Flush();
 		}
@@ -81,25 +74,25 @@ namespace Bistrotech.NHibernate
 		{
 			var entity = GetById(entityName, id);
 
-			var session = GetSession();
+			var session = sessionManager.OpenSession();
 			session.Delete(entityName, entity);
 			session.Flush();
 		}
 
-		// This method should probably be implemented in NH, via session.Merge(entityName, entity).
+		// HACK:
+		// My opinion is that this method should be implemented in NH, via session.Merge(string entityName, IDictionary entity).
 		//  see: http://groups.google.com/group/nhusers/browse_frm/thread/5e5a55452d6a7cf0
-		private IDictionary Merge(ISession session, string entityName, IDictionary entity)
+		private IDictionary Merge(ISession session, EntityDefinition entityDefinition, IDictionary updatedEntity)
 		{
-			// HACK: In order to use Get or Load I would have to know the key field of the entity.
-			//	NH already knows which field is the key, so it should have a method to do this (e.g. Merge()).
-			var qbeMatches = session.CreateCriteria(entityName).Add(Example.Create(entity)).List();
-
-			if (qbeMatches.Count != 1)
-				throw new ApplicationException("Rudimentary Merge failed for this entity. Please contact an administrator.");
-
-			var persistedEntity = (IDictionary)qbeMatches[0];
-			foreach (var key in entity.Keys)
-				persistedEntity[key] = entity[key];
+			// How to Merge:
+			//		1) obtain the persisted entity having same ID as updatedEntity
+			//		2) copy values from updatedEntity to persistedEntity
+			//		3) return persistedEntity
+			//
+			//	NH already knows which field is the key, so it should have a Merge method that takes an IDictionary.
+			var persistedEntity = (IDictionary)session.Get(entityDefinition.EntityName, updatedEntity[entityDefinition.Key.Name]);
+			foreach (var key in updatedEntity.Keys)
+				persistedEntity[key] = updatedEntity[key];
 
 			return persistedEntity;
 		}

@@ -5,23 +5,11 @@ using NHibernate.Type;
 
 namespace Bistrotech.NHibernate
 {
-	public class TranslateFromPersistentClass : ITranslateFrom<PersistentClass>
+	public class PersistentClassTranslator
 	{
 		public EntityDefinition TranslateFrom(PersistentClass nhMapping)
 		{
 			var def = new EntityDefinition { EntityName = nhMapping.EntityName };
-
-			var keyType = KeyType.Assigned;
-			var keyVisibleOnIndex = true;
-
-			var keyAsSimpleValue = nhMapping.Key as SimpleValue;
-			if (keyAsSimpleValue != null && keyAsSimpleValue.IdentifierGeneratorStrategy == "native")
-			{
-				keyType = KeyType.SqlServerIdentity;
-				keyVisibleOnIndex = false;
-			}
-
-			def.KeyType = keyType;
 
 			// assume one key column per table, so break out of the foreach after one iteration
 			var keyName = nhMapping.IdentifierProperty.Name;
@@ -36,7 +24,6 @@ namespace Bistrotech.NHibernate
 				};
 
 				def.Key = key;
-				def.Key.ViewSettings.VisibleOnIndex = keyVisibleOnIndex;
 				break;
 			}
 
@@ -59,7 +46,6 @@ namespace Bistrotech.NHibernate
 					DataType = dataType
 				});
 			}
-
 			return def;
 		}
 
@@ -78,8 +64,5 @@ namespace Bistrotech.NHibernate
 
 			return DataType.String;
 		}
-
-
-
 	}
 }

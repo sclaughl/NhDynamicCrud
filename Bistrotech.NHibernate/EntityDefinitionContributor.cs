@@ -4,16 +4,15 @@ using System.IO;
 using Bistrotech.NamedEntities;
 using Castle.Facilities.NHibernateIntegration;
 using NHibernate.Cfg;
-using NHibernate.Mapping;
 
 namespace Bistrotech.NHibernate
 {
-	public class DynamicMappingFileContributor : IConfigurationContributor
+	public class EntityDefinitionContributor : IConfigurationContributor
 	{
-		private readonly DefinitionCreator<PersistentClass> definitionCreator;
+		private readonly DefinitionCreator definitionCreator;
 		private readonly DefinitionProvider definitionProvider;
 
-		public DynamicMappingFileContributor(DefinitionCreator<PersistentClass> definitionCreator, DefinitionProvider definitionProvider)
+		public EntityDefinitionContributor(DefinitionCreator definitionCreator, DefinitionProvider definitionProvider)
 		{
 			this.definitionCreator = definitionCreator;
 			this.definitionProvider = definitionProvider;

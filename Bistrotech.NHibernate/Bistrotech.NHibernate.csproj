@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{AB2D753E-6A15-48AD-B63A-59155937DD93}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -41,10 +41,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DynamicMappingFileContributor.cs" />
+    <Compile Include="DefinitionCreator.cs" />
+    <Compile Include="EntityDefinitionContributor.cs" />
     <Compile Include="NHNamedEntityRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TranslateFromPersistentClass.cs" />
+    <Compile Include="PersistentClassTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bistrotech.NamedEntities\Bistrotech.NamedEntities.csproj">

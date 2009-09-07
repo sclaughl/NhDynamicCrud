@@ -5,8 +5,8 @@
 				<h2>Maintenance Menu</h1>
 				<ol>
 					<li> $UrlHelper.Link("Test Link", "%{controller='test', action='index'}")</li>
-					#foreach ($table in $tables)
-						<li>$UrlHelper.Link($TextHelper.PascalCaseToWord("$table.EntityName"), "%{area='', controller='maintenance', action='index', querystring='entityName=$table.EntityName'}")</li>
+					#foreach ($entityType in $entityTypes)
+						<li>$UrlHelper.Link($TextHelper.PascalCaseToWord("$entityType.EntityName"), "%{area='', controller='maintenance', action='index', querystring='entityName=$entityType.EntityName'}")</li>
 					#end
 				</ol>
 			</div>

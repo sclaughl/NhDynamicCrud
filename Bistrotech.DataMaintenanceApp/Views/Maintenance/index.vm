@@ -1,1 +1,31 @@
-Index
+
+#foreach ($item in $entities)
+	#beforeall
+		<table>
+			<tr>
+					<th>&nbsp;</th>
+				#foreach ($key in $item.Keys)
+					<th>$key</th>
+				#end
+			</tr>
+	#before
+			<tr
+	#odd
+				class="tableRow">
+	#even
+				class="tableRowAlt">
+	#each
+				<td>
+					$UrlHelper.Link("edit", "%{action='edit', querystring='entityName=$entityName&id=$item.get_Item($idName)'}")
+					$UrlHelper.Link("delete", "%{action='delete', querystring='entityName=$entityName&id=$item.get_Item($idName)'}")
+				</td>
+		#foreach ($value in $item.Values)
+				<td>#if ($value) $value #end</td>
+		#end
+	#after
+			</tr>
+	#afterall
+		</table>
+#end
+
+	$UrlHelper.Link("Add new $TextHelper.PascalCaseToWord($entityName)", "%{action='new', querystring='entityName=$entityName'}")

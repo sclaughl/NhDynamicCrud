@@ -12,7 +12,6 @@ using Castle.MonoRail.Framework.Internal;
 using Castle.MonoRail.Framework.Views.NVelocity;
 using Castle.MonoRail.WindsorExtension;
 using Castle.Windsor;
-using NHibernate.Mapping;
 using Component = Castle.MicroKernel.Registration.Component;
 
 namespace Bistrotech.DataMaintenanceApp
@@ -30,15 +29,15 @@ namespace Bistrotech.DataMaintenanceApp
 
 			container.Register(
 				Component.For<DefinitionProvider>(),
-				Component.For<DefinitionCreator<PersistentClass>>()
+				Component.For<DefinitionCreator>(),
+				Component.For<PersistentClassTranslator>()
 			);
 
-			container.AddComponent<IConfigurationContributor, DynamicMappingFileContributor>();
-			container.AddComponent<ITranslateFrom<PersistentClass>, TranslateFromPersistentClass>();
+			container.AddComponent<IConfigurationContributor, EntityDefinitionContributor>();
 			container.AddComponent<INamedEntityRepository, NHNamedEntityRepository>();
 
 			container.Resolve<IConfigurationContributor>();
-			container.Resolve<ITranslateFrom<PersistentClass>>();
+			//container.Resolve<ITranslateFrom<PersistentClass>>();
 		}
 
 		protected void Application_End(object sender, EventArgs e)
